@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue Js with PHP and MySQL</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div id="root">
+	<div class="container">
+		<h1 class="fleft">List of Users</h1>
+		<button class="fright addNew" @click="showingAddModal= true;">Add New</button>
+		<div class="clear"></div>
+		<hr>
+		<p class="errorMessage" v-if="errorMessage">
+		{{errorMessage}}	
+		</p>
+		<p class="successMessage" v-if="successMessage">
+		{{successMessage}}	
+		</p>
+		<table class="list">
+			<tr>
+				<th>Id</th>
+				<th>Fristname</th>
+				<th>Lastname</th>
+				<th>Email</th>
+				<th>Action</th>
+			</tr>
+			<tr v-for="user in users">
+				<td>{{user.id}}</td>
+				<td>{{user.firstname}}</td>
+				<td>{{user.lastname}}</td>
+				<td>{{user.email}}</td>
+				<td><button @click="showingEditModal= true; selectUser(user);">Edit</button>|<button @click="showingDeleteModal= true; selectUser(user);">Delete</button></td>
+			</tr>
+		</table>
+
+	</div>
+	<div class="modal" id="addModal" v-if="showingAddModal">
+		<div class="modalContainer">
+			<div class="modalHeading">
+			   <p class="fleft">Add New User</p>
+			   <button class="fright close" @click="showingAddModal= false;">x</button>
+			   <div class="clear"></div>
+			</div>
+			<div class="modalContent">
+				<form class="form">
+					<label>FristName:</label>
+					<br>
+					<input type="text" name="" v-model="newUser.firstname">
+					<br><br>
+					<label>LastName:</label>
+					<br>
+					<input type="text" name="" v-model="newUser.lastname">
+					<br><br>
+					<label>Email</label>
+					<br>
+					<input type="text" name="" v-model="newUser.email"><br><br>
+					<button @click="showingAddModal= false; saveUser();">Save</button>
+				</form>
+			</div>
+		</div>	
+	</div>
+
+	<div class="modal" id="EditModal" v-if="showingEditModal">
+		<div class="modalContainer">
+			<div class="modalHeading">
+			   <p class="fleft">Update User</p>
+			   <button class="fright close" @click="showingEditModal= false;">x</button>
+			   <div class="clear"></div>
+			</div>
+			<div class="modalContent">
+				<form class="form">
+					<label>FristName:</label>
+					<br>
+					<input type="text" name="" v-model="clickedUser.firstname">
+					<br><br>
+					<label>LastName:</label>
+					<br>
+					<input type="text" name="" v-model="clickedUser.lastname">
+					<br><br>
+					<label>Email</label>
+					<br>
+					<input type="hidden" name="" v-model="clickedUser.id">
+					<input type="text" name="" v-model="clickedUser.email"><br><br>
+					<button @click="showingEditModal= false; updateUser()">Save</button>
+				</form>
+			</div>
+		</div>	
+	</div>
+	<div class="modal" id="DeleteModal" v-if="showingDeleteModal">
+		<div class="modalContainer">
+			<div class="modalHeading">
+			   <p class="fleft">Are you sure?</p>
+			   <button class="fright close" @click="showingDeleteModal= false;">x</button>
+			   <div class="clear"></div>
+			</div>
+			<div class="modalContent">
+				<p class="fleft">You are going to delete {{clickedUser.firstname}}</p>
+				<br><br><br><br><br>
+				<button  @click="showingDeleteModal= false; deleteUser();">Yes</button>
+				<button  @click="showingDeleteModal= false;">No</button>
+
+			</div>
+		</div>	
+	</div>
+</div>
+
+<script type="text/javascript" src="axios.js"></script>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
